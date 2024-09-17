@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 /*
 char AlfaA = {A,B,C,D,E,F,G,H,I,J};
 char AlfaB = {a,b,c,d,e,f,g,h,i,j};*/
+
+int count_dicas = 0; //contador global das função dica
 
 void relogio() {
     time_t tempo_inicio, tempo_atual;
