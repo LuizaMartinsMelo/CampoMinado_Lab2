@@ -1,34 +1,66 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h> //para a funcao sllep()
+
+
 
 /*
 char AlfaA = {A,B,C,D,E,F,G,H,I,J};
 char AlfaB = {a,b,c,d,e,f,g,h,i,j};*/
 
 int count_dicas = 0; //contador global das função dica
+int tabueiro[LINHAS][COLUNAS];
 
 void relogio() {
-    time_t tempo_inicio, tempo_atual;
-    int segundos_decorridos = 0;
-    tempo_inicio = time(NULL);
-    while (1) {
-        tempo_atual = time(NULL);
-        segundos_decorridos = (int)(tempo_atual - tempo_inicio);
-        printf("\rTempo decorrido: %d segundos", segundos_decorridos);
-        fflush(stdout);
-        sleep(1);
+    time_t tempo_inicio, tempo_atual,tempo_pausa;
+    int segundos_decorridos = 0, pausado = 0
+    char opcao;
+
+    tempo_atual = time(NULL);
+
+    while(1) {
+        if(!pausado) {
+            tempo_atual = time(NULL);
+            segundos_decorridos = (int) tempo_atual - tempo_inicio;//calcula o tempo decorrido
+            printf("\nTempo decorrido: %d segundos", segundos_decorridos);
+            fflush(stdout);
+        }
+        sleep(1);//Pausa o tempo por 1 segundo
+
+        if(pausado) {
+            printf("\nRelogio pausado. Escolha uma opcao(C: Para continuar ou S: Para sair): ");
+        }else {
+            printf("\nEscolha (P: Pausar ou S: Sair): ");
+        }
+        scanf("%c", &opcao);
+
+        if(opcao == 'P'||opcao == 'p') {
+            if(!pausado){
+                tempo_pausa = time(NULL);
+                pausado=1;
+                printf("\nRelogio pausado.")
     }
 }
 
+
+
+
 void ajuda() {
 
-    printf("Regras do jogo:\n");
+    printf(
+        "\n   Regras do jogo:   \n"
+            "O objetivo do jogo e revelar todas as celuas que nao contem bomba.\n"
+            "Se voce revelar uma celula com uma bomba, o jogo termina.\n"
+            "Os numero nas celulas indicam quantas bombas estao nas proximidades.\n"
+    );
 }
 
 void menu() {
     printf(
         "\n   MENU   \n"
+        "\n    OPCOES:     \n"
+        "Clique em alguma letra indicada na frente das opcoes.\n"
         "A - AJUDA\n"
         "D - DICA\n"
         "C - CONFIGURACAO\n"
