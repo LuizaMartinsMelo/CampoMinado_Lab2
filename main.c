@@ -35,7 +35,7 @@ void relogio();
 int main() {
     int campo[LINHAS][COLUNAS] = {0};
     int mat[LINHAS][COLUNAS] = {0};
-    int *bomba;
+    int bomba;
     printf("Jogo Iniciado\n\n");
 /*
   imprime(tabInic);
@@ -45,6 +45,7 @@ int main() {
         imprime(campo);
         menu();
         opcao(&bomba);
+        printf("\nBomba: %d\n", bomba);
     }
 
     return 0;
@@ -82,11 +83,11 @@ void opcao(int *bomba) {
         break;
         case 'C':
         case 'c':
-            configuracao(&bomba);
+            configuracao(bomba);
         break;
         case 'I':
         case 'i':
-            iniciar(&bomba);
+            iniciar(bomba);
         break;
         case 'P':
         case 'p':
