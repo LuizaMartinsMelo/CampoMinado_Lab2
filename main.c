@@ -16,37 +16,38 @@ int count_dicas = 0; //contador global das função dica
 int inicio = 0;
 
 //---------Protótipos das funções--------//
-void menu();
-void opcao();
+void menu(); //ok
+void opcao(int *bombas);
 void ajuda();
 void dica();
-void configuracao();
-void iniciar();
+void configuracao(int *bombas); //ok
+void iniciar(int *bombas);
 void pausar();
 void continuar();
 void jogada();
 void sair();
 void geraTabIni(int tab[10][10]);
-void geraCampo(int mat[10][10]);
-void imprime(int mat[10][10]);
+void geraCampo(int mat[10][10], int *bombas);
+void imprime(int mat[10][10]); //auxiliar
 void relogio();
 
 //---------Função Principal--------//
 int main() {
-    int tabuleiro[LINHAS][COLUNAS] = {0};
-    printf("***Jogo Iniciado***\n\n")
+    int campo[LINHAS][COLUNAS] = {0};
+    int mat[LINHAS][COLUNAS] = {0};
+    int *bomba;
+    printf("Jogo Iniciado\n\n");
 /*
-    geraCampo(mat);
-    geraTabIni(tabInic);
-    imprime(tabInic);
+  imprime(tabInic);
 */
+    geraTabIni(campo);
     while(1) {
+        imprime(campo);
         menu();
-        opcao();
+        opcao(&bomba);
     }
 
     return 0;
-
 }
 
 //---------Funções---------//
@@ -66,13 +67,13 @@ void menu() {
         "Escolha uma opcao: \n"
     );
 }
-void opcao() {
+
+void opcao(int *bomba) {
     char op;
     op = getchar();
     switch (op) {
         case 'A':
         case 'a':
-            puts("deu");
             ajuda();
             break;
         case 'D':
@@ -81,11 +82,11 @@ void opcao() {
         break;
         case 'C':
         case 'c':
-            configuracao();
+            configuracao(&bomba);
         break;
         case 'I':
         case 'i':
-            iniciar();
+            iniciar(&bomba);
         break;
         case 'P':
         case 'p':
@@ -118,7 +119,6 @@ void ajuda() {
     );
 }
 
-//funcao que da uma dica para o jogador
 void dica() {
     count_dicas++;
     switch (count_dicas) {
@@ -145,19 +145,38 @@ void dica() {
             break;
         case 8:
             printf("Dica 8");
-            break;
             count_dicas = 0;
+            break;
     }
 }
 
-void configuracao() {
+void configuracao(int *bombas) {
     int nivel;
-    printf("Selecione o nivel de dificuldade(1, 2 ou 3)");
-    scanf("%d", &nivel);
-    printf("Nivel %d selecionado", nivel);
+    int foi = 1;
+    while(foi) {
+        printf("\nSelecione o nivel de dificuldade(1, 2 ou 3): ");
+        scanf("%d", &nivel);
+        switch (nivel) {
+            case 1:
+                *bombas = 10;
+                foi = 0;
+            break;
+            case 2:
+                *bombas = 15;
+                foi = 0;
+            break;
+            case 3:
+                *bombas = 20;
+                foi = 0;
+            break;
+            default:
+                printf("Nivel inexistente\n");
+        }
+    }
+    printf("\nNivel %d selecionado", nivel);
 }
 
-void iniciar() {
+void iniciar(int *bombas) {
     if(inicio == 0) {
         printf("Campo Minado iniciado\n");
 
@@ -166,9 +185,7 @@ void iniciar() {
     }else {
         printf("\nJogo já foi iniciado!",
                     "\nDeseja reiniciar o jogo?(S/N)");
-
     }
-
 }
 
 void pausar() {
@@ -199,14 +216,36 @@ void geraTabIni(int tab[10][10]){
     }
 }
 
-void geraCampo(int mat[10][10]) {
-    srand(time(NULL));
-    int min = -1;
-    int max = 4;
+void geraCampo(int campo[10][10], int *bombas) {
+    int bombasColocadas = 0;
 
-    for(int i = 0; i < 10; i++) {
-        for(int j = 0; j < 10; j++) {
-            mat[i][j] = (rand() % (max - min + 1)) + min;
+    while (bombasColocadas < *bombas) {
+        int linha = rand() % LINHAS;
+        int coluna = rand() % COLUNAS;
+
+        if (campo[linha][coluna] != -1) {  // Verifica se não já é uma bomba
+            campo[linha][coluna] = -1;  // Coloca uma bomba
+            bombasColocadas++;
+        }
+    }
+    for (int i = 0; i < LINHAS; i++) {
+        for (int j = 0; j < COLUNAS; j++) {
+            if (campo[i][j] == -1) {  // Se for uma bomba
+                // Incrementa o valor nas células adjacentes
+                for (int x = -1; x <= 1; x++) {
+                    for (int y = -1; y <= 1; y++) {
+                        int novaLinha = i + x;
+                        int novaColuna = j + y;
+
+                        // Verifica se está dentro dos limites e se não é uma bomba
+                        if (novaLinha >= 0 && novaLinha < LINHAS &&
+                            novaColuna >= 0 && novaColuna < COLUNAS &&
+                            campo[novaLinha][novaColuna] != -1) {
+                            campo[novaLinha][novaColuna]++;
+                            }
+                    }
+                }
+            }
         }
     }
 }
