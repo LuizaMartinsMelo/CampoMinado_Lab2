@@ -4,8 +4,8 @@
 #include <unistd.h>
 
 //---------Define--------//
-#define LINHAS 10
-#define COLUNAS 10
+#define LINHAS 10/2
+#define COLUNAS 10/2
 
 /*
 char AlfaA = {A,B,C,D,E,F,G,H,I,J};
@@ -229,7 +229,10 @@ void jogada(char mat[10][10], int gabarito[10][10]) {
         }else {
             printf("Perdeu!!");
         }
-
+    }else {
+        if(mat[linha][coluna] == '*') {
+            printf("Ja marcou essa posição\n");
+        }
     }
     printf("Celula (%d, %d) revelada.\n", linha, coluna);
 }
@@ -301,6 +304,7 @@ void imprime(int mat[10][10], int campo[10][10]){
 
         printf("\n");
     }
+
 }
 
 void relogio(time_t tempo_inicio) {
