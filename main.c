@@ -18,14 +18,14 @@ int config = 0;
 
 //---------Protótipos das funções--------//
 void menu(); //ok
-void opcao(int *bombas, int campo[LINHAS][COLUNAS]);
+void opcao(int *bombas, int campo[LINHAS][COLUNAS], char mat[10][10]);
 void ajuda(); //colocar mais ajuda
 void dica();  //colocar as dicas
 void configuracao(int *bombas); //ok
 void iniciar(int campo[LINHAS][COLUNAS], int *bombas);
 void pausar(); //ok
 void continuar();
-void jogada();
+void jogada(char mat[10][10], int gabarito[10][10]);
 void sair();
 void geraTabIni(int tab[10][10]); //ok
 void geraCampo(int mat[10][10], int *bombas);
@@ -45,7 +45,7 @@ int main() {
     while(1) {
         //imprime(campo);
         menu();
-        opcao(&bomba, gabarito);
+        opcao(&bomba, gabarito, campo);
         imprime(campo, gabarito);
     }
 
@@ -70,7 +70,7 @@ void menu() {
     );
 }
 
-void opcao(int *bomba, int campo[LINHAS][COLUNAS]) {
+void opcao(int *bomba, int campo[LINHAS][COLUNAS], char mat[10][10]) {
     char op;
     op = getchar();
     switch (op) {
@@ -116,7 +116,7 @@ void opcao(int *bomba, int campo[LINHAS][COLUNAS]) {
         case 'J':
         case 'j':
             if (inicio == 1) {
-                jogada();
+                jogada(mat, campo);
             }else {
                 printf("Inicie o jogo primeiramente\n");
             }
@@ -219,12 +219,22 @@ void continuar() {
     printf("Retomando o jogo");
 }
 
-void jogada() {
+void jogada(char mat[10][10], int gabarito[10][10]) {
     int linha, coluna;
     printf("Informe a linha e a coluna para revelar uma celula: ");
-    scanf("%d %d", &linha, &coluna);
+    scanf("%d%d", &linha, &coluna);
+    if(mat[linha][coluna] == '-') {
+        if(gabarito[linha][coluna] != -1) {
+            mat[linha][coluna] = '*';
+        }else {
+            printf("Perdeu!!");
+        }
+
+    }
     printf("Celula (%d, %d) revelada.\n", linha, coluna);
 }
+
+
 
 void sair () {
     printf("Jogo finalizado!");
