@@ -14,38 +14,39 @@ char AlfaB = {a,b,c,d,e,f,g,h,i,j};*/
 //--------Variáveis Global--------//
 int count_dicas = 0; //contador global das função dica
 int inicio = 0;
+int config = 0;
 
 //---------Protótipos das funções--------//
 void menu(); //ok
-void opcao(int *bombas);
-void ajuda();
-void dica();
+void opcao(int *bombas, int campo[LINHAS][COLUNAS]);
+void ajuda(); //colocar mais ajuda
+void dica();  //colocar as dicas
 void configuracao(int *bombas); //ok
-void iniciar(int *bombas);
-void pausar();
+void iniciar(int campo[LINHAS][COLUNAS], int *bombas);
+void pausar(); //ok
 void continuar();
 void jogada();
 void sair();
-void geraTabIni(int tab[10][10]);
+void geraTabIni(int tab[10][10]); //ok
 void geraCampo(int mat[10][10], int *bombas);
-void imprime(int mat[10][10]); //auxiliar
+void imprime(int mat[10][10], int campo[10][10]); //auxiliar
 void relogio();
 
 //---------Função Principal--------//
 int main() {
-    int campo[LINHAS][COLUNAS] = {0};
-    int mat[LINHAS][COLUNAS] = {0};
+    char campo[LINHAS][COLUNAS] = {0};
+    int gabarito[LINHAS][COLUNAS] = {0};
     int bomba;
-    printf("Jogo Iniciado\n\n");
+    printf("Jogo Iniciado\n");
 /*
   imprime(tabInic);
 */
     geraTabIni(campo);
     while(1) {
-        imprime(campo);
+        //imprime(campo);
         menu();
-        opcao(&bomba);
-        printf("\nBomba: %d\n", bomba);
+        opcao(&bomba, gabarito);
+        imprime(campo, gabarito);
     }
 
     return 0;
@@ -69,7 +70,7 @@ void menu() {
     );
 }
 
-void opcao(int *bomba) {
+void opcao(int *bomba, int campo[LINHAS][COLUNAS]) {
     char op;
     op = getchar();
     switch (op) {
@@ -83,23 +84,42 @@ void opcao(int *bomba) {
         break;
         case 'C':
         case 'c':
-            configuracao(bomba);
+            if (inicio == 0) {
+                configuracao(bomba);
+                config = 1;
+            }else {
+                printf("Jogo ja iniciado\n");
+            }
+
         break;
         case 'I':
         case 'i':
-            iniciar(bomba);
+            iniciar(campo, bomba);
         break;
         case 'P':
         case 'p':
-            pausar();
+            if (inicio == 1) {
+                pausar();
+            }else {
+                printf("Inicie o jogo primeiramente\n");
+            }
+
         break;
         case 'T':
         case 't':
-            continuar();
+            if (inicio == 1) {
+                continuar();
+            }else {
+                printf("Inicie o jogo primeiramente\n");
+            }
         break;
         case 'J':
         case 'j':
-            jogada();
+            if (inicio == 1) {
+                jogada();
+            }else {
+                printf("Inicie o jogo primeiramente\n");
+            }
         break;
         case 'S':
         case 's':
@@ -177,15 +197,17 @@ void configuracao(int *bombas) {
     printf("\nNivel %d selecionado", nivel);
 }
 
-void iniciar(int *bombas) {
+void iniciar(int campo[LINHAS][COLUNAS], int *bombas) {
     if(inicio == 0) {
         printf("Campo Minado iniciado\n");
-
-
+        if(config == 0) {
+            configuracao(bombas);
+        }
+        geraCampo(campo ,bombas);
         printf("Tabuleiro montado e relogio iniciado!");
+        inicio = 1;
     }else {
-        printf("\nJogo já foi iniciado!",
-                    "\nDeseja reiniciar o jogo?(S/N)");
+        printf("\nJogo já foi iniciado!");
     }
 }
 
@@ -220,6 +242,7 @@ void geraTabIni(int tab[10][10]){
 void geraCampo(int campo[10][10], int *bombas) {
     int bombasColocadas = 0;
 
+    //coloca as bombas
     while (bombasColocadas < *bombas) {
         int linha = rand() % LINHAS;
         int coluna = rand() % COLUNAS;
@@ -229,6 +252,8 @@ void geraCampo(int campo[10][10], int *bombas) {
             bombasColocadas++;
         }
     }
+
+    //preenche o resto do campo
     for (int i = 0; i < LINHAS; i++) {
         for (int j = 0; j < COLUNAS; j++) {
             if (campo[i][j] == -1) {  // Se for uma bomba
@@ -251,19 +276,25 @@ void geraCampo(int campo[10][10], int *bombas) {
     }
 }
 
-void imprime(int mat[10][10]){
+void imprime(int mat[10][10], int campo[10][10]){
     printf("\n");
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 10; j++) {
-            printf(" %c ", mat[i][j]);
+            if(mat[i][j] == '-') {
+                printf("  %c ", mat[i][j]);
+            }else {
+                if(mat[i][j] == '*') {
+                    printf("  %i ", campo[i][j]);
+                }
+            }
         }
 
         printf("\n");
     }
 }
 
-void relogio() {
-    time_t tempo_inicio, tempo_atual,tempo_pausa;
+void relogio(time_t tempo_inicio) {
+    time_t tempo_atual,tempo_pausa;
     int segundos_decorridos = 0, pausado = 0;
     char opcao;
 
