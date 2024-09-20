@@ -1,6 +1,14 @@
 # ninja log v6
-122	220	7483088851351259	CampoMinado_Lab2.exe	ce95cde70ede8337
-22	120	7483088850353989	CMakeFiles/CampoMinado_Lab2.dir/main.c.obj	58a9507ec828ac04
-21	933	7484106848066294	CMakeFiles/CampoMinado_Lab2.dir/test.c.obj	ec437e44c20aee82
-13	250	7484107115897805	build.ninja	71a06b8bb8a63612
+19	93	7485577287160118	CMakeFiles/CampoMinado_Lab2.dir/main.c.obj	58a9507ec828ac04
 28	177	7484107116759197	CampoMinado_Lab2.exe	ccaaa7b7ad36eae1
+21	933	7484106848066294	CMakeFiles/CampoMinado_Lab2.dir/test.c.obj	ec437e44c20aee82
+36	152	7485575713575256	CMakeFiles/CampoMinado_Lab2.dir/main2.c.obj	62202f70585e8182
+13	250	7485577417654450	build.ninja	71a06b8bb8a63612
+12	286	7485577417654450	build.ninja	71a06b8bb8a63612
+59	145	7485577419174173	CampoMinado_Lab2.exe	ce95cde70ede8337
+10	93	7485578267979027	CMakeFiles/CampoMinado_Lab2.dir/main.c.obj	58a9507ec828ac04
+93	168	7485578268808653	CampoMinado_Lab2.exe	ce95cde70ede8337
+21	108	7485578418543136	CMakeFiles/CampoMinado_Lab2.dir/main.c.obj	58a9507ec828ac04
+109	195	7485578419412492	CampoMinado_Lab2.exe	ce95cde70ede8337
+14	84	7485578688762034	CMakeFiles/CampoMinado_Lab2.dir/main.c.obj	58a9507ec828ac04
+85	148	7485578689461513	CampoMinado_Lab2.exe	ce95cde70ede8337

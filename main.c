@@ -1,65 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <unistd.h> //para a funcao sllep()
+#include <unistd.h>
 
-
+//---------Define--------//
+#define LINHAS 10
+#define COLUNAS 10
 
 /*
 char AlfaA = {A,B,C,D,E,F,G,H,I,J};
 char AlfaB = {a,b,c,d,e,f,g,h,i,j};*/
 
+//--------Variáveis Global--------//
 int count_dicas = 0; //contador global das função dica
-int tabueiro[LINHAS][COLUNAS];
+int inicio = 0;
 
-void relogio() {
-    time_t tempo_inicio, tempo_atual,tempo_pausa;
-    int segundos_decorridos = 0, pausado = 0
-    char opcao;
+//---------Protótipos das funções--------//
+void menu();
+void opcao();
+void ajuda();
+void dica();
+void configuracao();
+void iniciar();
+void pausar();
+void continuar();
+void jogada();
+void sair();
+void geraTabIni(int tab[10][10]);
+void geraCampo(int mat[10][10]);
+void imprime(int mat[10][10]);
+void relogio();
 
-    tempo_atual = time(NULL);
-
+//---------Função Principal--------//
+int main() {
+    int tabuleiro[LINHAS][COLUNAS] = {0};
+    printf("***Jogo Iniciado***\n\n")
+/*
+    geraCampo(mat);
+    geraTabIni(tabInic);
+    imprime(tabInic);
+*/
     while(1) {
-        if(!pausado) {
-            tempo_atual = time(NULL);
-            segundos_decorridos = (int) tempo_atual - tempo_inicio;//calcula o tempo decorrido
-            printf("\nTempo decorrido: %d segundos", segundos_decorridos);
-            fflush(stdout);
-        }
-        sleep(1);//Pausa o tempo por 1 segundo
-
-        if(pausado) {
-            printf("\nRelogio pausado. Escolha uma opcao(C: Para continuar ou S: Para sair): ");
-        }else {
-            printf("\nEscolha (P: Pausar ou S: Sair): ");
-        }
-        scanf("%c", &opcao);
-
-        if(opcao == 'P'||opcao == 'p') {
-            if(!pausado){
-                tempo_pausa = time(NULL);
-                pausado=1;
-                printf("\nRelogio pausado.")
+        menu();
+        opcao();
     }
+
+    return 0;
+
 }
 
-
-
-
-void ajuda() {
-
-    printf(
-        "\n   Regras do jogo:   \n"
-            "O objetivo do jogo e revelar todas as celuas que nao contem bomba.\n"
-            "Se voce revelar uma celula com uma bomba, o jogo termina.\n"
-            "Os numero nas celulas indicam quantas bombas estao nas proximidades.\n"
-    );
-}
+//---------Funções---------//
 
 void menu() {
     printf(
-        "\n   MENU   \n"
-        "\n    OPCOES:     \n"
+        "\n//---MENU---//\n"
+        "OPCOES:\n"
         "Clique em alguma letra indicada na frente das opcoes.\n"
         "A - AJUDA\n"
         "D - DICA\n"
@@ -72,14 +67,15 @@ void menu() {
         "Escolha uma opcao: \n"
     );
 }
-
-
-void opcao(char op) {
+void opcao() {
+    char op;
+    op = getchar();
     switch (op) {
         case 'A':
         case 'a':
+            puts("deu");
             ajuda();
-        break;
+            break;
         case 'D':
         case 'd':
             dica();
@@ -94,7 +90,7 @@ void opcao(char op) {
         break;
         case 'P':
         case 'p':
-            pausa();
+            pausar();
         break;
         case 'T':
         case 't':
@@ -111,8 +107,17 @@ void opcao(char op) {
         default:
             printf("Opcao invalida! Tente novamente.\n");
     }
+    fflush(stdin);
 }
 
+void ajuda() {
+    printf(
+        "\n   Regras do jogo:   \n"
+            "O objetivo do jogo e revelar todas as celuas que nao contem bomba.\n"
+            "Se voce revelar uma celula com uma bomba, o jogo termina.\n"
+            "Os numero nas celulas indicam quantas bombas estao nas proximidades.\n"
+    );
+}
 
 //funcao que da uma dica para o jogador
 void dica() {
@@ -154,11 +159,20 @@ void configuracao() {
 }
 
 void iniciar() {
-    printf("Jogo iniciado\n");
-    printf("Tabuleiro montado e relogio iniciado!");
+    if(inicio == 0) {
+        printf("Campo Minado iniciado\n");
+
+
+        printf("Tabuleiro montado e relogio iniciado!");
+    }else {
+        printf("\nJogo já foi iniciado!",
+                    "\nDeseja reiniciar o jogo?(S/N)");
+
+    }
+
 }
 
-void pausa() {
+void pausar() {
     printf("Jogo pausado");
 }
 
@@ -209,25 +223,35 @@ void imprime(int mat[10][10]){
     }
 }
 
-int main() {
-    int mat[10][10];
-    int tabInic[10][10];
-    char op;
+void relogio() {
+    time_t tempo_inicio, tempo_atual,tempo_pausa;
+    int segundos_decorridos = 0, pausado = 0;
+    char opcao;
 
-    printf("Campo Minado iniciado\n");
-
-    geraCampo(mat);
-    geraTabIni(tabInic);
-    imprime(tabInic);
+    tempo_atual = time(NULL);
 
     while(1) {
-        menu();
-        scanf("%c", &op);
-        getchar();
-        opcao(op);
+        if(!pausado) {
+            tempo_atual = time(NULL);
+            segundos_decorridos = (int) tempo_atual - tempo_inicio;//calcula o tempo decorrido
+            printf("\nTempo decorrido: %d segundos", segundos_decorridos);
+            fflush(stdout);
+        }
+        sleep(1);//Pausa o tempo por 1 segundo
+
+        if(pausado) {
+            printf("\nRelogio pausado. Escolha uma opcao(C: Para continuar ou S: Para sair): ");
+        }else {
+            printf("\nEscolha (P: Pausar ou S: Sair): ");
+        }
+        scanf("%c", &opcao);
+
+        if(opcao == 'P'||opcao == 'p') {
+            if(!pausado){
+                tempo_pausa = time(NULL);
+                pausado=1;
+                printf("\nRelogio pausado.");
+            }
+        }
     }
-
-    return 0;
-
 }
-

@@ -49,8 +49,8 @@ cmake_ninja_workdir = C$:/Users/luiza/CLionProjects/CampoMinado_Lab2/cmake-build
 
 build cmake_object_order_depends_target_CampoMinado_Lab2: phony || .
 
-build CMakeFiles/CampoMinado_Lab2.dir/test.c.obj: C_COMPILER__CampoMinado_Lab2_unscanned_Debug C$:/Users/luiza/CLionProjects/CampoMinado_Lab2/test.c || cmake_object_order_depends_target_CampoMinado_Lab2
-  DEP_FILE = CMakeFiles\CampoMinado_Lab2.dir\test.c.obj.d
+build CMakeFiles/CampoMinado_Lab2.dir/main.c.obj: C_COMPILER__CampoMinado_Lab2_unscanned_Debug C$:/Users/luiza/CLionProjects/CampoMinado_Lab2/main.c || cmake_object_order_depends_target_CampoMinado_Lab2
+  DEP_FILE = CMakeFiles\CampoMinado_Lab2.dir\main.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\CampoMinado_Lab2.dir
   OBJECT_FILE_DIR = CMakeFiles\CampoMinado_Lab2.dir
@@ -63,7 +63,7 @@ build CMakeFiles/CampoMinado_Lab2.dir/test.c.obj: C_COMPILER__CampoMinado_Lab2_u
 #############################################
 # Link the executable CampoMinado_Lab2.exe
 
-build CampoMinado_Lab2.exe: C_EXECUTABLE_LINKER__CampoMinado_Lab2_Debug CMakeFiles/CampoMinado_Lab2.dir/test.c.obj
+build CampoMinado_Lab2.exe: C_EXECUTABLE_LINKER__CampoMinado_Lab2_Debug CMakeFiles/CampoMinado_Lab2.dir/main.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\CampoMinado_Lab2.dir

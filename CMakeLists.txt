@@ -5,4 +5,5 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(CampoMinado_Lab2
 
-        main.c)
+        main.c
+)
