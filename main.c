@@ -50,7 +50,6 @@ int main() {
 }
 
 //---------Funções---------//
-
 void menu() {
     printf(
         "\n//---MENU---//\n"
